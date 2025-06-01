@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <!-- Khai báo ngôn ngữ tiếng Việt -->
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Đảm bảo hiển thị đúng tiếng Việt -->
+    <title>To-Do List</title>                             
+    <!-- Tiêu đề trên tab trình duyệt -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Gắn file CSS -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- Khối chính chứa toàn bộ nội dung -->
+      <h1>To-Do List</h1>
+      <!-- Tiêu đề -->
+
+      <div class="input-group">
+        <!-- Nhóm nhập dữ liệu -->
+        <input type="text" id="taskInput" placeholder="Nhập việc cần làm..." />
+        <!-- Ô nhập công việc -->
+        <button onclick="addTask()">Thêm</button>
+        <!-- Nút thêm việc -->
+      </div>
+
+      <ul id="taskList"></ul>
+      <!-- Danh sách các việc sẽ được thêm vào đây -->
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Gắn JavaScript -->
+  </body>
+</html>
