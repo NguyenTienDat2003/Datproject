@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng nhập tài khoản</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <h2>🔐 Đăng nhập</h2>
+      <input type="text" id="login-username" placeholder="Tên đăng nhập" />
+      <input type="password" id="login-password" placeholder="Mật khẩu" />
+      <button onclick="login()">Đăng nhập</button>
+      <p id="login-message"></p>
+      <p>Bạn chưa có tài khoản? <a href="dang_ki.html">Đăng ký ngay</a></p>
+    </div>
+
+    <script>
+      function login() {
+        const username = document.getElementById("login-username").value.trim();
+        const password = document.getElementById("login-password").value.trim();
+        const message = document.getElementById("login-message");
+
+        const userDataStr = localStorage.getItem(username);
+        if (!userDataStr) {
+          message.textContent = "Tài khoản không tồn tại!";
+          message.style.color = "red";
+          return;
+        }
+
+        const userData = JSON.parse(userDataStr);
+        if (userData.password !== password) {
+          message.textContent = "Mật khẩu không đúng!";
+          message.style.color = "red";
+          return;
+        }
+
+        localStorage.setItem("loggedInUser", username);
+        sessionStorage.setItem("justLoggedIn", "true"); // Đặt cờ vừa đăng nhập
+
+        message.style.color = "green";
+        message.textContent = `Chào mừng ${username}! Đang chuyển về trang chính...`;
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1500);
+      }
+    </script>
+  </body>
+</html>

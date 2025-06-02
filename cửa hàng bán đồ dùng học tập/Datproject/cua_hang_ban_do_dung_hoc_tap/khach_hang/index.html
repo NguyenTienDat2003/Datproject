@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shop Đồ Dùng Học Tập</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: green;
+        padding: 10px 20px;
+        color: white;
+      }
+
+      .left-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .auth-buttons button,
+      .logout-btn {
+        margin-left: 10px;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: greenyellow;
+        color: white;
+        font-weight: bold;
+      }
+
+      .cart-icon {
+        position: relative;
+        cursor: pointer;
+        font-size: 24px;
+        user-select: none;
+        background-color: greenyellow;
+        padding: 6px 10px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .cart-count-badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>📚 Shop Đồ Dùng Học Tập</h1>
+      <div class="left-controls">
+        <div class="cart-icon" title="Giỏ hàng" onclick="goToCart()">
+          🛒
+          <span id="cart-count-badge" class="cart-count-badge">0</span>
+        </div>
+
+        <div id="auth-buttons" class="auth-buttons">
+          <button onclick="location.href='dang_ki.html'">Đăng kí</button>
+          <button onclick="location.href='dang_nhap.html'">Đăng nhập</button>
+        </div>
+
+        <div id="welcome-msg" style="display: none; align-items: center">
+          <span id="greeting" style="margin-left: 15px"></span>
+          <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="product-list">
+        <div class="product">
+          <img
+            src="https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6crm5u6bkqg37.webp"
+            alt="Bút bi"
+          />
+          <h3>Bút bi Thiên Long</h3>
+          <p>Giá: 5.000đ</p>
+          <button onclick="addToCart('Bút bi Thiên Long')">Thêm vào giỏ</button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lfgnmtu8pwg472.webp"
+            alt="Vở 200 trang"
+          />
+          <h3>Vở 200 trang</h3>
+          <p>Giá: 7.500đ</p>
+          <button onclick="addToCart('Vở 200 trang')">Thêm vào giỏ</button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8zp37iaba6cfe.webp"
+            alt="Thước kẻ 20cm"
+          />
+          <h3>Thước kẻ 20cm</h3>
+          <p>Giá: 3.000đ</p>
+          <button onclick="addToCart('Thước kẻ 20cm')">Thêm vào giỏ</button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://vanphongphamhl.vn/images/products/2024/06/25/large/giay-kiem-tra-campus-cap-2-khong-cham-2992-3_1719312173.jpg"
+            alt="Tập giấy kiểm tra Campus"
+          />
+          <h3>Tập giấy kiểm tra Campus</h3>
+          <p>Giá: 17.000đ</p>
+          <button onclick="addToCart('Tập giấy kiểm tra Campus')">
+            Thêm vào giỏ
+          </button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://product.hstatic.net/1000362139/product/but_chi_1342_63fa99ce3ef04a5f84221d21a2cb92c2.jpg"
+            alt="Bút chì HB"
+          />
+          <h3>Bút chì HB</h3>
+          <p>Giá: 4.000đ</p>
+          <button onclick="addToCart('Bút chì HB')">Thêm vào giỏ</button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://vanphongphamhl.vn/images/products/2024/03/23/large/gom-thien-long-e-011-1_1711166385.jpg"
+            alt="Tẩy Thiên Long"
+          />
+          <h3>Tẩy Thiên Long</h3>
+          <p>Giá: 5.000đ</p>
+          <button onclick="addToCart('Tẩy Thiên Long')">Thêm vào giỏ</button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://salt.tikicdn.com/cache/750x750/ts/product/88/06/8f/79165cb73b33931e9716152dab932640.jpg.webp"
+            alt="Máy tính cầm tay Casio FX-580VN X"
+          />
+          <h3>Máy tính cầm tay Casio FX-580VN X</h3>
+          <p>Giá: 720.000đ</p>
+          <button onclick="addToCart('Máy tính cầm tay Casio FX-580VN X')">
+            Thêm vào giỏ
+          </button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://product.hstatic.net/1000230347/product/keo_thien_long_-_flexoffice_fo-sc01__9__b883c72bef2f497784c40cffda1ba2ae.jpg"
+            alt="Kéo Thiên Long"
+          />
+          <h3>Kéo Thiên Long</h3>
+          <p>Giá: 26.000đ</p>
+          <button onclick="addToCart('Kéo Thiên Long')">Thêm vào giỏ</button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://product.hstatic.net/1000230347/product/chuot_chi_thien_long_s-01__9_.jpg"
+            alt="Gọt bút chì Thiên Long"
+          />
+          <h3>Gọt bút chì Thiên Long</h3>
+          <p>Giá: 3.000đ</p>
+          <button onclick="addToCart('Gọt bút chì Thiên Long')">
+            Thêm vào giỏ
+          </button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://down-vn.img.susercontent.com/file/vn-11134211-7r98o-lssnuto1c78971"
+            alt="Bộ compa và eke thước kẻ 8 chi tiết"
+          />
+          <h3>Bộ compa và eke thước kẻ 8 chi tiết</h3>
+          <p>Giá: 17.000đ</p>
+          <button onclick="addToCart('Bộ compa và eke thước kẻ 8 chi tiết')">
+            Thêm vào giỏ
+          </button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://bizweb.dktcdn.net/thumb/1024x1024/100/334/874/products/2256-2-b88a2932-092f-42ee-9a6f-8549b910f47d.jpg?v=1690182896573"
+            alt="Bút máy Hồng Hà nét hoa - 2256"
+          />
+          <h3>Bút máy Hồng Hà nét hoa - 2256</h3>
+          <p>Giá: 56.000đ</p>
+          <button onclick="addToCart('Bút máy Hồng Hà nét hoa - 2256')">
+            Thêm vào giỏ
+          </button>
+        </div>
+
+        <div class="product">
+          <img
+            src="https://product.hstatic.net/1000362139/product/hl02_e2db07bfc0c3470faef9d95cd24b1801.jpg"
+            alt="Bút nhớ dòng Flexoffice HL02"
+          />
+          <h3>Bút nhớ dòng Flexoffice HL02</h3>
+          <p>Giá: 10.000đ</p>
+          <button onclick="addToCart('Bút nhớ dòng Flexoffice HL02')">
+            Thêm vào giỏ
+          </button>
+        </div>
+      </section>
+    </main>
+    <script src="cart.js"></script>
+    <script src="checklogin.js"></script>
+
+    <script>
+      window.onload = function () {
+        updateCartCount();
+        checkLoginStatus();
+      };
+    </script>
+  </body>
+</html>

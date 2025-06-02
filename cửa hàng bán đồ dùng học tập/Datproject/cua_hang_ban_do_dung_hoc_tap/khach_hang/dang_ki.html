@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng ký tài khoản</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <h2>📝 Đăng ký</h2>
+      <input type="text" id="register-username" placeholder="Tên đăng nhập" />
+      <input type="text" id="register-phone" placeholder="Số điện thoại" />
+      <input type="password" id="register-password" placeholder="Mật khẩu" />
+      <input
+        type="password"
+        id="register-password-confirm"
+        placeholder="Nhập lại mật khẩu"
+      />
+      <button onclick="register()">Đăng ký</button>
+      <p id="register-message"></p>
+      <p>Bạn đã có tài khoản? <a href="dang_nhap.html">Đăng nhập ngay</a></p>
+    </div>
+
+    <script>
+      function register() {
+        const username = document
+          .getElementById("register-username")
+          .value.trim();
+        const phone = document.getElementById("register-phone").value.trim();
+        const password = document
+          .getElementById("register-password")
+          .value.trim();
+        const passwordConfirm = document
+          .getElementById("register-password-confirm")
+          .value.trim();
+        const message = document.getElementById("register-message");
+
+        if (!username || !phone || !password || !passwordConfirm) {
+          message.textContent = "Vui lòng nhập đầy đủ thông tin!";
+          message.style.color = "red";
+          return;
+        }
+
+        const phoneRegex = /^\d{9,11}$/;
+        if (!phoneRegex.test(phone)) {
+          message.textContent = "Số điện thoại không hợp lệ (10 chữ số)!";
+          message.style.color = "red";
+          return;
+        }
+
+        if (password !== passwordConfirm) {
+          message.textContent = "Mật khẩu nhập lại không khớp!";
+          message.style.color = "red";
+          return;
+        }
+
+        if (localStorage.getItem(username)) {
+          message.textContent = "Tài khoản đã tồn tại!";
+          message.style.color = "red";
+          return;
+        }
+
+        const userData = {
+          phone: phone,
+          password: password,
+        };
+
+        localStorage.setItem(username, JSON.stringify(userData));
+
+        message.style.color = "green";
+        message.textContent =
+          "Đăng ký thành công! Đang chuyển sang đăng nhập...";
+
+        setTimeout(() => {
+          window.location.href = "dang_nhap.html";
+        }, 1500);
+      }
+    </script>
+  </body>
+</html>

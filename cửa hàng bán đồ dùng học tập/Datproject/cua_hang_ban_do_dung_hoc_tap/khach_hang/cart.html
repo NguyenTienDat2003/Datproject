@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Giỏ Hàng</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: #f8f8f8;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        color: green;
+        margin: 0;
+      }
+
+      .back-home-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .back-home-button:hover {
+        background-color: #0056b3;
+      }
+
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #cart-total {
+        text-align: right;
+        font-weight: bold;
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const loggedInUser = localStorage.getItem("loggedInUser");
+      if (!loggedInUser) {
+        alert("Bạn cần đăng nhập để xem giỏ hàng.");
+        window.location.href = "dang_nhap.html";
+      }
+    </script>
+
+    <header>
+      <h1>🛒 Giỏ Hàng</h1>
+      <button class="back-home-button" onclick="location.href='index.html'">
+        Trở về trang chính
+      </button>
+    </header>
+
+    <div id="cart-list"></div>
+
+    <div id="cart-total">Tổng tiền: 0₫</div>
+
+    <script>
+      const prices = {
+        "Bút bi Thiên Long": 5000,
+        "Vở 200 trang": 7500,
+        "Thước kẻ 20cm": 3000,
+        "Tập giấy kiểm tra Campus": 17000,
+        "Bút chì HB": 4000,
+        "Tẩy Thiên Long": 5000,
+        "Máy tính cầm tay Casio FX-580VN X": 720000,
+        "Kéo Thiên Long": 26000,
+        "Gọt bút chì Thiên Long": 3000,
+        "Bộ compa và eke thước kẻ 8 chi tiết": 17000,
+        "Bút máy Hồng Hà nét hoa - 2256": 56000,
+        "Bút nhớ dòng Flexoffice HL02": 10000,
+      };
+
+      const cartList = document.getElementById("cart-list");
+      const totalDisplay = document.getElementById("cart-total");
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      cart = cart.filter(
+        (item) =>
+          typeof item === "object" &&
+          item.name &&
+          typeof item.quantity === "number"
+      );
+
+      function renderCart() {
+        cartList.innerHTML = "";
+
+        if (cart.length === 0) {
+          cartList.innerHTML = "<p>Giỏ hàng của bạn đang trống.</p>";
+          localStorage.setItem("cart", JSON.stringify([]));
+          totalDisplay.textContent = "Tổng tiền: 0₫";
+          return;
+        }
+
+        let total = 0;
+
+        cart.forEach((item, index) => {
+          const price = prices[item.name] || 0;
+          total += price * item.quantity;
+
+          const div = document.createElement("div");
+          div.className = "cart-item";
+          div.style.display = "grid";
+          div.style.gridTemplateColumns = "1fr 100px 80px";
+          div.style.alignItems = "center";
+          div.style.marginBottom = "10px";
+          div.style.backgroundColor = "#fff";
+          div.style.padding = "12px 20px";
+          div.style.borderRadius = "8px";
+          div.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
+          div.innerHTML = `
+            <div>${item.name}</div>
+            <div style="text-align: center;">
+              <input 
+                type="number" 
+                min="1" 
+                value="${item.quantity}" 
+                style="width: 60px; padding: 4px; text-align: center;" 
+                onchange="updateQuantity(${index}, this.value)"
+              />
+            </div>
+            <div style="text-align: right;">
+              <button 
+                onclick="removeItem(${index})" 
+                style="background-color: red; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer;"
+              >
+                🗑️ Xóa
+              </button>
+            </div>
+          `;
+          cartList.appendChild(div);
+        });
+
+        totalDisplay.textContent = `Tổng tiền: ${total.toLocaleString()}₫`;
+      }
+
+      function updateQuantity(index, newValue) {
+        const quantity = parseInt(newValue);
+        if (quantity > 0) {
+          cart[index].quantity = quantity;
+          localStorage.setItem("cart", JSON.stringify(cart));
+        }
+        renderCart();
+      }
+
+      function removeItem(index) {
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
+
+      renderCart();
+    </script>
+  </body>
+</html>
